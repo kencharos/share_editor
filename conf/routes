@@ -1,0 +1,20 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index
+GET     /theme/:theme               controllers.Application.theme(theme:String)
+POST    /share                      controllers.Application.share
+GET     /manage                     controllers.Application.list
+GET     /manage/new                 controllers.Application.newTheme
+POST    /manage/new/:theme         controllers.Application.create(theme:String)
+POST    /manage/delete/:theme      controllers.Application.delete(theme:String)
+GET    /review                 controllers.Application.review
+
+#Web Socket management
+GET    /ws          controllers.Application.shareWs
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /webjars/*file              controllers.WebJarAssets.at(file)
