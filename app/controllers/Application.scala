@@ -18,19 +18,42 @@ object Application extends Controller {
     )(Challenger.apply)(Challenger.unapply)
   )
 
+  val inputForm = Form(
+    mapping(
+      "theme" -> nonEmptyText,
+      "content" -> nonEmptyText
+    )(Theme.apply)(Theme.unapply)
+  )
+
   def index = Action {implicit request =>
     Ok(views.html.index(Theme.all, themeForm))
   }
 
-  def list = TODO
+  def list = Action {implicit request =>
+    Ok(views.html.themelist(Theme.all))
+  }
 
-  def newTheme = TODO
+  def newTheme = Action {implicit request =>
+    Ok(views.html.themeinput(inputForm))
+  }
 
-  def create(theme:String) = TODO
+  def create = Action {implicit request =>
+    inputForm.bindFromRequest.fold(
+      // on validation error
+      errors => BadRequest(views.html.themeinput(inputForm)),
+      // validation OK.
+      input => {
+        Theme.save(input)
+        Redirect(routes.Application.list())
+      }
+    )
+  }
 
-  def delete(theme:String) = TODO
+  def delete(theme:String) = Action { implicit request =>
+    Theme.delete(theme)
+    Redirect(routes.Application.list())
+  }
 
-  def theme(theme:String) = TODO
   
   def share =  Action {implicit request =>
     themeForm.bindFromRequest.fold(

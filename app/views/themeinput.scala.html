@@ -1,0 +1,17 @@
+@(form:Form[models.Theme])(implicit request: RequestHeader)
+
+@import helper.twitterBootstrap._
+
+@main("テーマ作成") {
+  @helper.form(action = routes.Application.create) {
+    @helper.inputText(form("theme"),
+      '_label -> "テーマ名"
+    )
+    @helper.textarea(
+      form("content"),
+      '_label -> "内容",
+      'rows -> 20, 'cols -> 90
+    )
+    <input type="submit" value="登録" class="btn btn-primary">
+  }
+}

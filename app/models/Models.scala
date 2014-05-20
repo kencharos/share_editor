@@ -23,8 +23,8 @@ object Theme {
   def save(theme:Theme) = DB.withConnection { implicit c => 
     SQL("insert into Theme values({t}, {c})").on('t ->theme.theme, 'c -> theme.content).executeUpdate();
   }
-  def delete(theme:Theme) = DB.withConnection { implicit c => 
-    SQL("delete from Theme where theme = {theme}").on('theme ->theme.theme).executeUpdate();
+  def delete(theme:String) = DB.withConnection { implicit c => 
+    SQL("delete from Theme where theme = {theme}").on('theme ->theme).executeUpdate();
   }
   def get(theme:String) = DB.withConnection { implicit c => 
     val list = SQL("select * from Theme where theme = {theme}").on('theme ->theme).as(parse * )
