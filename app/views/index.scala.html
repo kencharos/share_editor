@@ -2,19 +2,19 @@
 
 @import helper.twitterBootstrap._
 
-@main("テーマ選択") {
-  <h1>名前を入れてテーマを選択</h1>
+@main("template select.") {
+  <h1>input your name, and select template</h1>
   @helper.form(action = routes.Application.share) {
     @helper.inputText(form("name"),
-      '_label -> "名前"
+      '_label -> "name"
     )
     @helper.select(
       form("theme"),
       list.map(t => t.theme -> t.theme),
-      '_label -> "テーマ"
+      '_label -> "template"
     )
 
-    <input type="submit" value="選択" class="btn btn-primary" />
+    <input type="submit" value="Go" class="btn btn-primary" />
   }
 
 }

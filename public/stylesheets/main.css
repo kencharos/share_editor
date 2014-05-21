@@ -1,0 +1,20 @@
+#editor { 
+    position: absolute;
+    top: 100px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.box {
+  /*単なるスタイリング*/
+  width:300px; height:200px; margin:0; padding:0; border:1px solid black;
+  position:absolute;resize:both;overflow:auto;
+  background-color: white;
+}
+#dropbox {
+  /*単なるスタイリング*/
+  width:100%; height:100%;
+  /*以下はwebkit系ブラウザでドラッグ＆ドロップを動かすための指定（ブラウザのサポートが進めば、必要なくなると思われます）*/
+  position:absolute;
+}

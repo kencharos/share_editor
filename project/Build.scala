@@ -10,7 +10,6 @@ object ApplicationBuild extends Build {
   val appDependencies = Seq(
     jdbc,
     anorm,
-    "websocket_plugin" % "websocket_plugin_2.10" % "0.4.0",
     "org.webjars" %% "webjars-play" % "2.2.1-2",
     "org.webjars" % "bootstrap" % "2.3.1",
     "org.webjars" % "ace" % "07.31.2013",

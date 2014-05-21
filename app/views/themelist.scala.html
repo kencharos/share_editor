@@ -1,21 +1,21 @@
 @(list:List[models.Theme])(implicit request: RequestHeader)
 
 @import helper.twitterBootstrap._
-@main("テーマ一覧") {
+@main("template list") {
 <p>
-<a href="@routes.Application.newTheme">新規</a>  
-<a href="@routes.Application.review">レビュー</a>
+<a href="@routes.Application.newTheme">new</a>  
+<a href="@routes.Application.review">review page</a>
 </p>
 
-<p>テーマ一覧</p>
+<p>template list</p>
 <ul class="list-inline">
   @for(t <- list) {
     @helper.form(action = routes.Application.delete(t.theme)) {
       <li>@t.theme
           <textarea>@t.content</textarea>
-          <input type="submit" value="削除" class="btn btn-primary">
+          <input type="submit" value="Delete" class="btn btn-primary">
       </li>
     }
   }
-    </ul>
+</ul>
 }

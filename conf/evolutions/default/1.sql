@@ -8,7 +8,7 @@ CREATE TABLE Theme (
     PRIMARY KEY (theme)
 );
 
-INSERT INTO Theme values ('Sample.java', '//好きに打て');
+INSERT INTO Theme values ('Sample.java', '//input java code that you like.');
 
 CREATE TABLE Answer (
     theme varchar(255) NOT NULL ,

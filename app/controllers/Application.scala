@@ -8,6 +8,7 @@ import play.api.data._
 import play.api.data.Forms._
 
 import models._
+import actors._
 
 object Application extends Controller {
 
@@ -68,23 +69,18 @@ object Application extends Controller {
     )
   }
 
-  def review = TODO
+  def review = Action { implicit request  =>
+    Ok(views.html.review(""))
+  }
 
-  def shareWs = 
-    WebSocket.async[JsValue] {implicit request => 
-    actors.ws.ExampleWs.control
+  // define WebSocket 
+  def wsStudent(name:String) = WebSocket.async[JsValue] {implicit request => 
+    ShareCode.join(name)
   }
-  /*
-  def indexStateless = Action {implicit request =>
-    Ok(views.html.indexStateless("Welcome! Let's Play with your brand new stateless websocket!")).withSession(
-        ("uuid" -> java.util.UUID.randomUUID.toString)
-      )
+
+  def wsManager =  WebSocket.async[JsValue] {implicit request => 
+    ShareCode.joinManager
   }
-  def indexStatefull = Action {implicit request =>
-    Ok(views.html.indexStatefull("Welcome! Let's Play with your brand new statefull websocket!")).withSession(
-        ("uuid" -> java.util.UUID.randomUUID.toString)
-      )
-  }
-  */
+
   
 }

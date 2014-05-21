@@ -1,6 +1,42 @@
-@(t:models.Theme)(implicit request: RequestHeader)
+@(any:String)(implicit request: RequestHeader)
 
+@main("review") {
+  
+  <script>
+    var ws = new WebSocket("@routes.Application.wsManager().webSocketURL()");
+    var exists = function(name,arr) {
+      for (i in arr) {
+        if (name == arr[i]) return true;
+      }
+      return false;
+    }
+    ws.onclose = function() {
+      alert("Disconnected.")
+    }
+    var user = [];
+    ws.onmessage = function(msg){
+      var obj = JSON.parse(msg.data);
+      console.log(obj)
+      var name = obj.name
+      var theme = obj.theme;
+      var content = obj.content;
 
-@main("レビュー") {
+      var pos = 200 * user.length
+      var sub = "<span>" + name + "</span>(<span>" + theme + "</span>)<br>" 
+          + "<pre><code>" + content + "</code></pre>"
+      if(exists(name, user)) {
+        $("#" + name).html(sub)
+      } else {
+        var div = "<div id='" +name+ "' class='box' style='top:" + "10" 
+          + "px;left:" +pos + "px;' draggable='true' ondragstart='dragstart(event)'>";
+        $("#dropbox").append(div + sub + "</div>")
+        user.push(name);
+      }
+      $("#" + name+" pre code").each(function(i, e){hljs.highlightBlock(e)})
+    };
 
+    //hljs.initHighlightingOnLoad();
+  </script>
+  <div id="dropbox" ondragover="dragover(event)" ondrop="drop(event)">
+  </div>
 }

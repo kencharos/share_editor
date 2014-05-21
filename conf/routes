@@ -9,10 +9,11 @@ GET     /manage                     controllers.Application.list
 GET     /manage/new                 controllers.Application.newTheme
 POST    /manage/new                 controllers.Application.create
 POST    /manage/delete/:theme      controllers.Application.delete(theme:String)
-GET    /review                 controllers.Application.review
+GET     /review                   controllers.Application.review
 
 #Web Socket management
-GET    /ws          controllers.Application.shareWs
+GET    /wsStudent/:name    controllers.Application.wsStudent(name:String)
+GET    /wsManager          controllers.Application.wsManager
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

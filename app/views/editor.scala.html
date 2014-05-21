@@ -1,7 +1,28 @@
 @(t:models.Answer)(implicit request: RequestHeader)
 
 
-@main("エディタ") {
-  <h1>エディタ</h1>
+@main("editor") {
+<h1>@t.theme (@t.name) </h1>
+<div id="editor">@t.content</div>
+  <script src="/webjars/ace/07.31.2013/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script>
+    var ws = new WebSocket("@routes.Application.wsStudent(t.name).webSocketURL()");
+    ws.onmessage = function(msg){console.log(msg)};
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/java");
+    editor.getSession().on('change', function(e) {
+
+      ws.send(JSON.stringify({
+        theme:"@t.theme",
+        name:"@t.name",
+        content:editor.getSession().getValue()
+      }))
+    });
+    ws.onclose = function() {
+      alert("Disconnected.")
+    }
+
+  </script>
 
 }
