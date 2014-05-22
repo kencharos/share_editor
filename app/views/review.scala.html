@@ -21,14 +21,15 @@
       var theme = obj.theme;
       var content = obj.content;
 
-      var pos = 200 * user.length
+      var top = 200 * (Math.floor(user.length/3))
+      var left = 300 * (user.length%3)
       var sub = "<span>" + name + "</span>(<span>" + theme + "</span>)<br>" 
           + "<pre><code>" + content + "</code></pre>"
       if(exists(name, user)) {
         $("#" + name).html(sub)
       } else {
-        var div = "<div id='" +name+ "' class='box' style='top:" + "10" 
-          + "px;left:" +pos + "px;' draggable='true' ondragstart='dragstart(event)'>";
+        var div = "<div id='" +name+ "' class='box' style='top:" + top 
+          + "px;left:" +left + "px;' draggable='true' ondragstart='dragstart(event)'>";
         $("#dropbox").append(div + sub + "</div>")
         user.push(name);
       }
