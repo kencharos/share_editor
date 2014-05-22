@@ -49,40 +49,16 @@ object ShareCode {
   def joinManager : scala.concurrent.Future[(Iteratee[JsValue, _], Enumerator[JsValue])] = {
     (manager ? Review()).map {
       case Connected(reviewEnumerator) =>
-        
-         // iteratee-入力.enumerator-出力。shutu
-        val iteratee = Iteratee.foreach[JsValue] {
-          event => //ブラウザからのイベント取得,チャネルへコード内容を送信。
-            println("manager event")
-            manager ! Answer((event \ "theme").as[String], (event \ "name").as[String], (event \ "content").as[String])
-        }.mapDone {//終了時
-          _ =>
-            println("manager done")
-        }
-         println("manager connect")
+         // iteratee-入力.enumerator-出力。入力は何もしない
+        val iteratee = Iteratee.ignore[JsValue] 
         (iteratee, reviewEnumerator)
     }
   }
 }
 
 class ShareCode extends Actor {
-
-  var reviewChanel: Option[Channel[JsValue]] = None
-  def onStart: Channel[JsValue] => Unit = {
-    channel =>
-      reviewChanel = Some(channel)
-      println("start:ShareCode:onstart")
-  }
-
-  def onError: (String, Input[JsValue]) => Unit = {
-    (message, input) =>
-      println("onError " + message)
-  }
-
-  def onComplete = println("onComplete")
-  // 単一の送信先
-  val reviewEnumerator = Concurrent.unicast[JsValue](onStart, onComplete, onError)
-
+  // managerにのみ出力されればよいので、unicastでもいいのだが、上手い方法が思いつかないので、現状はbroadcast
+  val (reviewEnumerator, reviewChanel) = Concurrent.broadcast[JsValue]
   def receive = {
     //開始点 出力先のenumartorを送信し、呼び出し元でiterateeとあわせてWebSocketを作成する。
     case Join(username) => 
@@ -101,10 +77,7 @@ class ShareCode extends Actor {
         "content" -> JsString(content)
         )
     )
-    reviewChanel match { // チャネルに書き出す。
-      case Some(channel) => channel.push(msg)
-      case _ => println("nothing")
-    }
+    reviewChanel.push(msg)
   }
 }
 

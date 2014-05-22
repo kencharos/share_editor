@@ -7,7 +7,7 @@
   <script src="/webjars/ace/07.31.2013/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
   <script>
     var ws = new WebSocket("@routes.Application.wsStudent(t.name).webSocketURL()");
-    ws.onmessage = function(msg){console.log(msg)};
+    //ws.onmessage = function(msg){console.log(msg)};
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/java");

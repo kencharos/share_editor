@@ -16,7 +16,7 @@
     var user = [];
     ws.onmessage = function(msg){
       var obj = JSON.parse(msg.data);
-      console.log(obj)
+      //console.log(obj)
       var name = obj.name
       var theme = obj.theme;
       var content = obj.content;
